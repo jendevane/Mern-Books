@@ -8,7 +8,7 @@ import { REMOVE_BOOK } from '../utils/mutations';
 const SavedBooks = () => {
   const [userData, setUserData] = useState({});
 
-  // use this to determine if `useEffect()` hook needs to run again
+  
   const { loading, data } = useQuery(QUERY_ME);
   const [removeBook, { error }] = useMutation(REMOVE_BOOK);
 
@@ -28,7 +28,7 @@ const SavedBooks = () => {
       await removeBook({
         variables: { bookId }
       });
-      // upon success, remove book's id from localStorage
+    
       removeBookId(bookId);
     } catch (error) {
       console.error(error);
@@ -37,7 +37,7 @@ const SavedBooks = () => {
 
   // if data isn't here yet, say so
   if (!userDataLength) {
-    return <h2>data not found</h2>;
+    return <h2>LOADING...</h2>;
   }
 
   return (
