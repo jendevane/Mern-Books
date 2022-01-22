@@ -5,6 +5,11 @@ import SavedBooks from './pages/SavedBooks';
 import Navbar from './components/Navbar';
 import { ApolloProvider } from '@apollo/react-hooks';
 import ApolloClient from 'apollo-boost';
+import { InMemoryCache, createHttpLink, } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
+const httpLink = createHttpLink({
+  uri: '/graphql',
+});
 
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem('id_token');
@@ -21,7 +26,8 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 function App() {
-<ApolloProvider client={client}></ApolloProvider>
+  <ApolloProvider client={client}>
+  
   return (
     <Router>
       <>
@@ -32,8 +38,9 @@ function App() {
           <Route render={() => <h1 className='display-2'>Wrong page!</h1>} />
         </Switch>
       </>
-    </Router>
-  );
+      </Router>
+    </ApolloProvider>
+  
 }
 
 export default App;
