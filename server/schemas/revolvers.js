@@ -47,7 +47,7 @@ const resolvers = {
 
                 throw new AuthenticationError('You need to be logged in!');
             },
-            deleteBook = async (req, res) => {
+            deleteBook: async (req, res) => {
                 await Book.findOneAndDelete({ _id: req.params.id }, (err, Book) => {
                     if (err) {
                         return res.status(400).json({ success: false, error: err })
@@ -62,7 +62,7 @@ const resolvers = {
                     return res.status(200).json({ success: true, data: Book })
                 }).catch(err => console.log(err))
             },
-            createBook = (req, res) => {
+            createBook: (req, res) => {
                 const body = req.body
             
                 if (!body) {
