@@ -5,10 +5,10 @@ import { useMutation } from '@apollo/react-hooks';
 import Auth from '../utils/auth';
 import {searchGoogleBooks } from '../utils/API';
 import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
-import { SAVE_BOOK } from '../utils/mutations';
+import { SAVE_BOOK } from '../utils/mutation';
 
 const SearchBooks = () => {
-  const [saveBook, { error }] = useMutation(SAVE_BOOK);
+  const [saveBook] = useMutation(SAVE_BOOK);
   // create state for holding returned google api data
   const [searchedBooks, setSearchedBooks] = useState([]);
   // create state for holding our search field data
@@ -23,7 +23,7 @@ const SearchBooks = () => {
     return () => saveBookIds(savedBookIds);
   });
 
-  // create method to search for books and set state on form submit
+  
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
@@ -56,9 +56,9 @@ const SearchBooks = () => {
     }
   };
 
-  // create function to handle saving a book to our database
+  
   const handleSaveBook = async (selectedBookId) => {
-    // find the book in `searchedBooks` state by the matching id
+    
     const bookToSave = searchedBooks.find((book) => book.bookId === selectedBookId);
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
@@ -74,7 +74,7 @@ const SearchBooks = () => {
         variables: { authors, bookId, description, image, title, link }
       });
 
-      // if book successfully saves to user's account, save book id to state
+    
       setSavedBookIds([...savedBookIds, bookToSave.bookId]);
     } catch (error) {
       console.error(error);
@@ -126,7 +126,7 @@ const SearchBooks = () => {
                   <p className='small'>Authors: {book.authors}</p>
                   <Card.Text>{book.description}</Card.Text>
                   <Card.Text>
-                    <a href={book.link} target='_blank'>Click this link for info on this book!</a>
+                    <a href={book.link} target='_blank' rel="noopener noreferrer">Click this link for info on this book!</a>
                   </Card.Text>
                   {Auth.loggedIn() && (
                     <Button
