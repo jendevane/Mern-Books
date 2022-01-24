@@ -25,7 +25,7 @@ const SignupForm = () => {
 
     try {
       // execute addUser mutation and pass in variable data from form
-      const { data } = await addUser({
+      const { data } = await addUser[0]({
         variables: { ...userFormData}
       });
 
@@ -38,7 +38,7 @@ const SignupForm = () => {
   
 
     // check if form has everything (as per react-bootstrap docs)
-    const form = event.currentTarget;
+    const form = event.target;
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();

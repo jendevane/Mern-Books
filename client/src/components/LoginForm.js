@@ -1,46 +1,61 @@
-// see SignupForm.js for comments
-import React, { useState } from 'react';
+
+
+  // see SignupForm.js for comments
+import React, { useState, useEffect } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
-
-
-import { loginUser } from '../utils/API';
+//Apollo Client and Mutations:
+import { useMutation } from '@apollo/client';
+import { LOGIN_USER } from '../utils/mutation';
 import Auth from '../utils/auth';
+
 
 const LoginForm = () => {
   const [userFormData, setUserFormData] = useState({ email: '', password: '' });
-  const [login] = useMutation(LOGIN_USER);
+  const [loginUser, { error }] = useMutation(LOGIN_USER);
+  const [validated] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
 
+
+  useEffect(() => {
+    if (error) {
+      setShowAlert(true);
+    } else {
+      setShowAlert(false);
+    }
+  }, [error]);
+
+  // Updated with Apollo/GRaphql syntax
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setUserFormData({ ...userFormData, [name]: value });
   };
 
+
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
     // check if form has everything (as per react-bootstrap docs)
-  
-
-    try {
-      const { data } = await login({
-        variables: { ...formState },
-      });
-
-      Auth.login(data.login.token);
-    } catch (e) {
-      console.error(e);
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
     }
 
-    // clear form values
-    setFormState({
-      email: '',
-      password: '',
-    });
-  };
+    // Updated with Apollo/GRaphql syntax
+    try {
+      const { data } = await loginUser({ variables: { ...userFormData } });
+
+      console.log(data);
+      Auth.login(data.loginUser.token);
+    } catch (e) {
+      console.error(e);
+      setShowAlert(true);
+    }
+
     setUserFormData({
-      username: '',
-      email: '',
-      password: '',
+      username: "",
+      email: "",
+      password: "",
     });
   };
 
@@ -84,6 +99,6 @@ const LoginForm = () => {
       </Form>
     </>
   );
+};
 
-
-export default LoginForm;
+export default LoginForm
