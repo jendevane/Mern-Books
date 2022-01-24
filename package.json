@@ -16,6 +16,7 @@
     "concurrently": "^5.1.0"
   },
   "dependencies": {
+    "@heroku/buildpack-registry": "^1.0.1",
     "apollo-server-express": "^3.6.2"
   }
 }
