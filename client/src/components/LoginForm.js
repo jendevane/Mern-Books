@@ -24,7 +24,7 @@ const LoginForm = () => {
     }
   }, [error]);
 
-  // Updated with Apollo/GRaphql syntax
+
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setUserFormData({ ...userFormData, [name]: value });
@@ -41,7 +41,7 @@ const LoginForm = () => {
       event.stopPropagation();
     }
 
-    // Updated with Apollo/GRaphql syntax
+    
     try {
       const { data } = await loginUser({ variables: { ...userFormData } });
 
